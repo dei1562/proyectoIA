@@ -6,26 +6,26 @@ from __future__ import print_function
 import math
 from simpleai.search import SearchProblem, astar, breadth_first, depth_first
 
-# MAP = """
-# ##############################
-# #         #            x #   #
-# # ####    ########       #   #
-# #  o #    #              #   #
-# #    ###     ####   ######   #
-# #         ####      #        #
-# #            #  #   #   #### #
-# #     ######    #       #    #
-# #        #      #            #
-# ##############################
-# """
 MAP = """
-######
-#    #
-# o# #
-# ## #
-#   x#
-######
+##############################
+#         #            x #   #
+# ####    ########       #   #
+#  o #    #              #   #
+#    ###     ####   ######   #
+#         ####      #        #
+#            #  #   #   #### #
+#     ######    #       #    #
+#        #      #            #
+##############################
 """
+# MAP = """
+# ######
+# #    #
+# # o# #
+# # ## #
+# #   x#
+# ######
+# """
 
 MAP = [list(x) for x in MAP.split("\n") if x]
 
@@ -89,13 +89,13 @@ class GameWalkPuzzle(SearchProblem):
 def main():
     problem = GameWalkPuzzle(MAP)
 
-    resultb = breadth_first(problem)
+    """ resultb = breadth_first(problem)
     print(resultb.state)
     print(resultb.path())
 
     resultd = depth_first(problem)
     print(resultd.state)
-    print(resultd.path())
+    print(resultd.path()) """
 
     resulta = astar(problem, graph_search=True)
     path = [x[1] for x in resulta.path()]

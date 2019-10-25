@@ -1,35 +1,110 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+from __future__ import print_function
 import re
-from simpleai.search import astar
+from simpleai.search import SearchProblem, astar, breadth_first, depth_first
 from pacmanProblem import PacmanProblem
 
+## Se define la estructura del laberinto
+MAP = """
+######
+#1234#
+#56#7#
+#8##9#
+#ABCD#
+######
+"""
+
 def validarPosicion(pos):
+    pos = str(pos)
     x = re.findall("\d", pos)
     if not x:
-        tmpPos = input(f"La posicion ingresada no es correcta, por favor ingrese otra: ")
+        tmpPos = input("La posicion ingresada no es correcta, por favor ingrese otra: ")
         return validarPosicion(tmpPos)
 
     int_pos = int(pos)
     if int_pos > 13:
-        tmpPos = input(f"La posicion ingresada no esta en la matriz, por favor ingrese otra: ")
+        tmpPos = input("La posicion ingresada no esta en la matriz, por favor ingrese otra: ")
         return validarPosicion(tmpPos)
 
-    return int_pos
+    return pos
+
+def reemplazarPosicionesNoOcupadas(strMap, pacman, cereza):
+    
+    switcher = {
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5",
+        6: "6",
+        7: "7",
+        8: "8",
+        9: "9",
+        10: "A",
+        11: "B",
+        12: "C",
+        13: "D"
+    }
+
+    NEWMAP = strMap.replace(switcher.get(int(pacman), "Posicion invalida"), "o")
+    NEWMAP = NEWMAP.replace(switcher.get(int(cereza), "Posicion invalida"), "x")
+    NEWMAP = NEWMAP.replace("1", " ")
+    NEWMAP = NEWMAP.replace("2", " ")
+    NEWMAP = NEWMAP.replace("3", " ")
+    NEWMAP = NEWMAP.replace("4", " ")
+    NEWMAP = NEWMAP.replace("5", " ")
+    NEWMAP = NEWMAP.replace("6", " ")
+    NEWMAP = NEWMAP.replace("7", " ")
+    NEWMAP = NEWMAP.replace("8", " ")
+    NEWMAP = NEWMAP.replace("9", " ")
+    NEWMAP = NEWMAP.replace("A", " ")
+    NEWMAP = NEWMAP.replace("B", " ")
+    NEWMAP = NEWMAP.replace("C", " ")
+    NEWMAP = NEWMAP.replace("D", " ")
+
+    return NEWMAP
+
+def printMap(NEWMAP, problem, path): 
+    for y in range(len(NEWMAP)):
+        for x in range(len(NEWMAP[y])):
+            if (x, y) == problem.initial:
+                print("o", end='')
+            elif (x, y) == problem.goal:
+                print("x", end='')
+            elif (x, y) in path:
+                print("·", end='')
+            else:
+                print(NEWMAP[y][x], end='')
+        print()
 
 def init():
-    pacman = input(f"Posicion del pacman: ")
+    pacman = input("Posicion del pacman: ")
     pacman = validarPosicion(pacman)
 
-    cereza = input(f"Posicion de la cereza: ")
+    cereza = input("Posicion de la cereza: ")
     cereza = validarPosicion(cereza)
 
-    problem = PacmanProblem(initial_state='')
-    problem.pacman = pacman
-    problem.cereza = cereza
+    NEWMAP = reemplazarPosicionesNoOcupadas(MAP, pacman, cereza)
+    NEWMAP = [list(x) for x in NEWMAP.split("\n") if x]
+    problem = PacmanProblem(NEWMAP)
 
-    result = astar(problem)
+    resultb = breadth_first(problem)
+    path    = [x[1] for x in resultb.path()]
+    print("Busqueda en Anchura")
+    print(resultb.path())
+    print(printMap(NEWMAP, problem, path))
 
-    print(result.state)
-    print(result.path())
+    # resultd = depth_first(problem)
+    # print(resultd.state)
+    # print(resultd.path())
+
+    resulta = astar(problem, graph_search=True)
+    path = [x[1] for x in resulta.path()]
+    print("Busqueda A*")
+    print(resulta.path())
+    print(printMap(NEWMAP, problem, path))
 
 print(
 '''
