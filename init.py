@@ -4,6 +4,7 @@
 from __future__ import print_function
 import re
 from simpleai.search import SearchProblem, astar, breadth_first, depth_first
+from simpleai.search.viewers import ConsoleViewer, BaseViewer, WebViewer
 from pacmanProblem import PacmanProblem
 
 ## Se define la estructura del laberinto
@@ -90,21 +91,23 @@ def init():
     NEWMAP = [list(x) for x in NEWMAP.split("\n") if x]
     problem = PacmanProblem(NEWMAP)
 
-    resultb = breadth_first(problem)
-    path    = [x[1] for x in resultb.path()]
-    print("Busqueda en Anchura")
-    print(resultb.path())
-    print(printMap(NEWMAP, problem, path))
+    my_viewer = WebViewer()
 
-    # resultd = depth_first(problem)
-    # print(resultd.state)
-    # print(resultd.path())
+    # resultb = breadth_first(problem, graph_search=True, viewer=my_viewer)
+    # path    = [x[1] for x in resultb.path()]
+    # print("Busqueda en Anchura")
+    # print(resultb.path())
+    # print(printMap(NEWMAP, problem, path))
 
-    resulta = astar(problem, graph_search=True)
-    path = [x[1] for x in resulta.path()]
-    print("Busqueda A*")
-    print(resulta.path())
-    print(printMap(NEWMAP, problem, path))
+    resultd = depth_first(problem, graph_search=True, viewer=my_viewer)
+    print(resultd.state)
+    print(resultd.path())
+
+    # resulta = astar(problem, graph_search=True)
+    # path = [x[1] for x in resulta.path()]
+    # print("Busqueda A*")
+    # print(resulta.path())
+    # print(printMap(NEWMAP, problem, path))
 
 print(
 '''
