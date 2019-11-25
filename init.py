@@ -80,7 +80,31 @@ def printMap(NEWMAP, problem, path):
                 print(NEWMAP[y][x], end='')
         print()
 
+def doBreadthFirst(NEWMAP, problem, myviewer):
+    result = breadth_first(problem, graph_search=True, viewer=myviewer)
+    path    = [x[1] for x in result.path()]
+    print("Ruta realizada Anchura:")
+    print(result.path())
+    print(printMap(NEWMAP, problem, path))
+
+def doDepthFirst(NEWMAP, problem, myviewer):
+    result = depth_first(problem, graph_search=True, viewer=myviewer)
+    path    = [x[1] for x in result.path()]
+    # print(result.state)
+    # print(result.path())
+    print("Ruta realizada Profundidad:")
+    print(result.path())
+    print(printMap(NEWMAP, problem, path))
+
+def doAStar(NEWMAP, problem, myviewer):
+    result = astar(problem, graph_search=True, viewer=myviewer)
+    path = [x[1] for x in result.path()]
+    print("Ruta realizada A*:")
+    print(result.path())
+    print(printMap(NEWMAP, problem, path))
+
 def init():
+
     pacman = input("Posicion del pacman: ")
     pacman = validarPosicion(pacman)
 
@@ -91,23 +115,29 @@ def init():
     NEWMAP = [list(x) for x in NEWMAP.split("\n") if x]
     problem = PacmanProblem(NEWMAP)
 
-    my_viewer = WebViewer()
+    myviewer = WebViewer()
+    # myviewer = ConsoleViewer()
 
-    # resultb = breadth_first(problem, graph_search=True, viewer=my_viewer)
-    # path    = [x[1] for x in resultb.path()]
-    # print("Busqueda en Anchura")
-    # print(resultb.path())
-    # print(printMap(NEWMAP, problem, path))
-
-    resultd = depth_first(problem, graph_search=True, viewer=my_viewer)
-    print(resultd.state)
-    print(resultd.path())
-
-    # resulta = astar(problem, graph_search=True)
-    # path = [x[1] for x in resulta.path()]
-    # print("Busqueda A*")
-    # print(resulta.path())
-    # print(printMap(NEWMAP, problem, path))
+    ans=True
+    while ans:
+        print("""
+        1. Busqueda en anchura
+        2. Busqueda en profundidad
+        3. A*
+        4. Exit/Quit
+        """)
+        ans=raw_input("¿Cual opcion deseea ejecutar? ")
+        if ans=="1":
+            doBreadthFirst(NEWMAP, problem, myviewer)
+        elif ans=="2":
+            doDepthFirst(NEWMAP, problem, myviewer)
+        elif ans=="3":
+            doAStar(NEWMAP, problem, myviewer)
+        elif ans=="4":
+            ans = None
+            exit()
+        else:
+            print("\n Opcion no valida.")
 
 print(
 '''
