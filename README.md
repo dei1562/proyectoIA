@@ -12,4 +12,7 @@ Linux:
 Windows: 
     http://www.graphviz.org/Download.php
 
-/home/deymer/.local/lib/python2.7/site-packages/simpleai
+La carpeta modificaciones_simpleai tiene unos archivos que se deben reemplazar en la libreria simpleai,
+esta se encuentra ubicada en la siguiente direccion en carpetas linux:
+
+    /home/username/.local/lib/python2.7/site-packages/simpleai

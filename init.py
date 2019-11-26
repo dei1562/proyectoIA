@@ -81,7 +81,7 @@ def printMap(NEWMAP, problem, path):
         print()
 
 def doBreadthFirst(NEWMAP, problem, myviewer):
-    result = breadth_first(problem, graph_search=True, viewer=myviewer)
+    result = breadth_first(problem, graph_search=False, viewer=myviewer)
     path    = [x[1] for x in result.path()]
     print("Ruta realizada Anchura:")
     print(result.path())
@@ -97,7 +97,7 @@ def doDepthFirst(NEWMAP, problem, myviewer):
     print(printMap(NEWMAP, problem, path))
 
 def doAStar(NEWMAP, problem, myviewer):
-    result = astar(problem, graph_search=True, viewer=myviewer)
+    result = astar(problem, graph_search=False, viewer=myviewer)
     path = [x[1] for x in result.path()]
     print("Ruta realizada A*:")
     print(result.path())
